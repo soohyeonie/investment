@@ -13,6 +13,7 @@
     "express": "~4.16.1",
     "fs": "0.0.1-security",
     "hangul": "^1.0.0",
+    "hangul-js": "^0.2.6",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.2",
