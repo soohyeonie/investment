@@ -2,6 +2,7 @@ var express = require('express');
 var fs = require('fs');
 var csv = require('csv-parser');
 var router = express.Router();
+var rank_data = [];
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -13,15 +14,14 @@ router.get('/game', function(req, res, next) {
 });
 
 router.get('/ranking', function(req, res, next) {
-  var rank_data = [];
-
+  rank_data = [];
   fs.createReadStream('ranking.csv')
     .pipe(csv())
     .on('data', (data) => rank_data.push(data))
     .on('end', () => {
       console.log(rank_data);
+      res.render('ranking', {title: 'ranking', rankarray: rank_data});
     });
-  res.render('ranking', {title: 'ranking', rankarray: rank_data});
   // fs.readFile('ranking.txt', 'utf8', (err, ranking) => {
   //   if(err) {
   //     console.log(err);

@@ -8,14 +8,16 @@
         <div>
             <input type="button" value="메인 화면" onclick="location.href='../'"/>
             <br>
+            <table>
             <% for(let value of rankarray) { %>
               <tr>
-              <td><%= value['Name'] %> </td>
-              <td><%= value['Stock']%></td>
-              <td><%= value['Profit']%></td>
-              <td><%= value['Rate']%></td>
-              <td><%= value['Date']%></td>
+                <td><%= value['Name'] %> </td>
+                <td><%= value['Stock']%></td>
+                <td><%= value['Profit']%></td>
+                <td><%= value['Rate']%></td>
+                <td><%= value['Date']%></td>
               </tr>
             <% } %>
+            </table>
   </body>
 </html>
