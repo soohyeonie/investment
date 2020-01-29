@@ -26,8 +26,32 @@
     game.load.image("stock", "images/stock.png");
   }
 
+  function parseURLParams(url) {
+    var queryStart = url.indexOf("?") + 1,
+        queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+        query = url.slice(queryStart, queryEnd - 1),
+        pairs = query.replace(/\+/g, " ").split("&"),
+        parms = {}, i, n, v, nv;
+
+    if (query === url || query === "") return;
+
+    for (i = 0; i < pairs.length; i++) {
+        nv = pairs[i].split("=", 2);
+        n = decodeURIComponent(nv[0]);
+        v = decodeURIComponent(nv[1]);
+
+        if (!parms.hasOwnProperty(n)) parms[n] = [];
+        parms[n].push(nv.length === 2 ? v : null);
+    }
+    return parms;
+  }
   function create() {
     // 게임 처음 실행시 수행되는 함수
+
+    var link = document.location.href;
+    urlParams=parseURLParams(link);
+    console.log(urlParams[0])
+
     game.physics.startSystem(Phaser.Physics.ARCADE); // 게임 속성 설정(아케이드)
     
     game.stage.backgroundColor = "#2F9D27";         // 게임 배경색 설청
