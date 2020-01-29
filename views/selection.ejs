@@ -24,7 +24,8 @@
         <input id="stage3" class="input_change" value = "0" type="number" placeholder="금액을 입력해주세요." style="ime-mode:disabled;" min="500" max="10000" step="500"/>
 
         <!-- <input type="button" name="start" value="게임 시작" onclick="location.href='game'" /> -->
-        <input type="button" name="start" value="게임 시작" onclick="post_to_url('game',['wow'],'get')" />
+        <input type="button" name="start" value="게임 시작" onclick="post_to_url('game',[nameToCode()],'get')" />
+        <!-- <input type="button" name="start" value="게임 시작" onclick="nameToCode()" /> -->
         <input type="button" name="back"  value="뒤로 가기" onclick="location.href='../'" />
     </div>
 </body>
@@ -32,6 +33,7 @@
 </html>
 
 <script>
+
     function post_to_url(path, params, method) {
         var form = document.createElement("form");
         form.setAttribute("method", method);
@@ -47,6 +49,15 @@
         form.submit();
     }
 
+    function nameToCode()
+    {
+        var name = document.getElementById('searchInput').value
+        var idx = tmpDataName.indexOf(name)
+        var code = tmpDataCode[idx]
+        return code
+        console.log(name)
+        console.log(code)    
+    }
     
     $(".input_change").change(function () {
         // var sum = 10000;
@@ -110,11 +121,15 @@
             success: function (data) {
                 console.log("now finish your code")
                 
-                tmpData = []
+                tmpDataName = []
+                tmpDataCode = []
                 for(var i = 0; i < data.isuLists.length; i ++) {
-                    tmpData.push(data.isuLists[i].isuKorNm)
+                    tmpDataName.push(data.isuLists[i].isuKorNm)
+                    tmpDataCode.push(data.isuLists[i].isuSrtCd)
                 }
-                data=tmpData
+                data=tmpDataName
+                
+                console.log(tmpDataCode);
 
 
                 //이부분이 초성 검색이 가능하게 만들어 주는 부분
