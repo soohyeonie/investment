@@ -3,10 +3,17 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="phaser.min.js"></script>
   </head>
   <body>
-    hi
+    <div id="investMoney">
+      <span id="walletBoard">9500</span>원
+      <input id="wallet" class="input_change" value = "500" type="number" placeholder="금액을 입력해주세요." style="ime-mode:disabled;" min="500" max="10000" step="500"/>
+      <input type="button" value="배팅" onclick=""/>
+    </div>
   </body>
 </html>
 
@@ -17,11 +24,37 @@
   var counter=30;
   var counterText=0;
   var stage=1;
-  var pv=0;
+
+  var walletmoney=10000;
+  var investedMoney;
+  var FinalMoney;
+
+  var earnedMoney1;
+  var earnedMoney2;
+  var earnedMoney3;
+
+  $("#wallet").change(function () {
+    var wallet = $('#wallet').val();
+
+    if( wallet < 0 || wallet > walletmoney ) {
+      alert("적절한 금액을 입력해주세요.");
+      $('#wallet').val(500);
+      document.getElementById("walletBoard").innerHTML = walletmoney-500;
+    } else {
+      if( wallet % 500 != 0 ) {
+        alert("500원 단위로 입력해주세요.");
+        $('#wallet').val(500);
+        document.getElementById("walletBoard").innerHTML = walletmoney-500;
+      } else {
+        document.getElementById("walletBoard").innerHTML = walletmoney - wallet;
+      }
+    }
+
+  })
 
   function preload() {
     // 게임에 필요한 데이터 로드
-
+    
     game.load.spritesheet("player", "images/player.png", 80, 100);
     game.load.image("stock", "images/stock.png");
   }
