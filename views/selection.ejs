@@ -18,10 +18,10 @@
     <div>
         <input id="searchInput" name="search">
 
-        <div id="money">10000</div>
-        <input id="stage1" class="input_change" value = "0" type="number" placeholder="금액을 입력해주세요." style="ime-mode:disabled;" min="500" max="10000" step="500"/>
-        <input id="stage2" class="input_change" value = "0" type="number" placeholder="금액을 입력해주세요." style="ime-mode:disabled;" min="500" max="10000" step="500"/>
-        <input id="stage3" class="input_change" value = "0" type="number" placeholder="금액을 입력해주세요." style="ime-mode:disabled;" min="500" max="10000" step="500"/>
+        <!--div-- id="money">10000</!--div-->
+        <span id="walletBoard">9500</span>원
+        <input id="wallet" class="input_change" value = "500" type="number" placeholder="금액을 입력해주세요." style="ime-mode:disabled;" min="500" max="10000" step="500"/>
+        <input type="button" value="배팅" onclick="betting()"/>
 
         <!-- <input type="button" name="start" value="게임 시작" onclick="location.href='game'" /> -->
         <input type="button" name="start" value="게임 시작" onclick="post_to_url('game',[nameToCode()],'get')" />
@@ -33,6 +33,31 @@
 </html>
 
 <script>
+    var seedmoney = 10000;
+
+    function betting() {
+        investedmoney=$('#wallet').val();
+        console.log(investedmoney);
+        //넘기기 주식종목/스테이지/투자한돈/현재돈 네 개 넘겨
+    }
+
+    $("#wallet").change(function () {
+        var wallet = $('#wallet').val();
+
+        if( wallet < 0 || wallet > seedmoney ) {
+        alert("적절한 금액을 입력해주세요.");
+        $('#wallet').val(500);
+        document.getElementById("walletBoard").innerHTML = seedmoney-500;
+        } else {
+        if( wallet % 500 != 0 ) {
+            alert("500원 단위로 입력해주세요.");
+            $('#wallet').val(500);
+            document.getElementById("walletBoard").innerHTML = seedmoney-500;
+        } else {
+            document.getElementById("walletBoard").innerHTML = seedmoney - wallet;
+        }
+        }
+    })
 
     function post_to_url(path, params, method) {
         var form = document.createElement("form");
