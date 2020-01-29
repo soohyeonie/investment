@@ -4,6 +4,9 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="phaser.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
   </head>
   <body>
     hi
@@ -18,6 +21,7 @@
   var counterText=0;
   var stage=1;
   var pv=0;
+  var chartData = [];
 
   function preload() {
     // 게임에 필요한 데이터 로드
@@ -26,8 +30,40 @@
     game.load.image("stock", "images/stock.png");
   }
 
+  function getPastStockData(stock_code) {
+      $.ajax({
+          type: 'get',
+          url: `https://sandbox-apigw.koscom.co.kr/v2/market/stocks/kospi/${stock_code}/history?trnsmCycleTpCd=D&inqStrtDd=20181001&inqEndDd=20200129&reqCnt=100`,
+          dataType: "json",
+
+          beforeSend: function(request) {
+              request.setRequestHeader("apikey","l7xxdde00a17960b4bac946be15d87e0f498");
+          },
+
+          success: function (data1) {
+            chartData = data1.result.hisLists;
+          },
+      });
+
+      $.ajax({
+          type: 'get',
+          url: `https://sandbox-apigw.koscom.co.kr/v2/market/stocks/kospi/${stock_code}/history?trnsmCycleTpCd=D&inqStrtDd=20181001&inqEndDd=20190829&reqCnt=100`,
+          dataType: "json",
+
+          beforeSend: function(request) {
+              request.setRequestHeader("apikey","l7xxdde00a17960b4bac946be15d87e0f498");
+          },
+
+          success: function (data2) {
+            chartData = chartData.concat(data2.result.hisLists);
+            console.log(chartData);
+          },
+      });
+  }
+
   function create() {
     // 게임 처음 실행시 수행되는 함수
+    getPastStockData('005930');
     game.physics.startSystem(Phaser.Physics.ARCADE); // 게임 속성 설정(아케이드)
     
     game.stage.backgroundColor = "#2F9D27";         // 게임 배경색 설청
