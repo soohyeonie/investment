@@ -8,6 +8,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/game', function(req, res, next) {
+
+  console.log();
   res.render('game', { title: 'game' });
 });
 
