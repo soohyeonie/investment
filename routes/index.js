@@ -1,6 +1,7 @@
 var express = require('express');
 var fs = require('fs');
 var csv = require('csv-parser');
+var csvWriter = require('csv-write-stream');
 var router = express.Router();
 var rank_data = [];
 
@@ -10,6 +11,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/game', function(req, res, next) {
+
+  console.log();
   res.render('game', { title: 'game' });
 });
 
@@ -22,16 +25,15 @@ router.get('/ranking', function(req, res, next) {
       console.log(rank_data);
       res.render('ranking', {title: 'ranking', rankarray: rank_data});
     });
-  // fs.readFile('ranking.txt', 'utf8', (err, ranking) => {
-  //   if(err) {
-  //     console.log(err);
-  //     res.status(500).send('Internal Server Error');
-  //   }
-  //   console.log(ranking);
-  // });
 });
 
 router.get('/score', function(req, res, next) {
+
+  var writer = csvWriter({sendHeaders: false});
+  writer.pipe(fs.createWriteStream('ranking.csv', {flags : 'a'}))
+  writer.write({Name: 'name', Stock: 'stock', Profit: 'profit', Rate: 'rate', Date: 'date'})
+  writer.end()
+
   res.render('score', { title: 'score' });
 });
 
