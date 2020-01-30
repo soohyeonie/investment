@@ -2,22 +2,34 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/gameStyle.css' />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="phaser.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+    <style type="text/css"> 
+      a { text-decoration:none } 
+    </style> 
   </head>
-  <body>
 
+  <body id="titleBody" >
+    <header>
+      <a href="/"><h1>하늘에서 내리는 봉봉</h1></a>
+      <nav>
+        <a href="/" id="titleHyper">새로하기</a>
+      </nav>
+    </header></br>
+    <div id="canvas">
+
+    </div>
   </body>
+
 </html>
 
 <script type="text/javascript">
-  var game = new Phaser.Game(600, 800, Phaser.CANVAS, null, { preload: preload, create: create, update: update });
+  var game = new Phaser.Game(600, 800, Phaser.CANVAS, 'canvas', { preload: preload, create: create, update: update });
   var keyMove;
   var stocks;
   var counter=30;
