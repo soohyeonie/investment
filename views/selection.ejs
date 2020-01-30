@@ -24,7 +24,7 @@
         <input type="button" value="배팅" onclick="betting()"/>
 
         <!-- <input type="button" name="start" value="게임 시작" onclick="location.href='game'" /> -->
-        <input type="button" name="start" value="게임 시작" onclick="post_to_url('game',[nameToCode()],'get')" />
+        <input type="button" name="start" value="게임 시작" onclick="post_to_url('game',[getUrlValue(0),getInvest(),getCode(),getUrlValue(3),getUrlValue(4),getUrlValue(5)],'get')" />
         <!-- <input type="button" name="start" value="게임 시작" onclick="nameToCode()" /> -->
         <input type="button" name="back"  value="뒤로 가기" onclick="location.href='../'" />
     </div>
@@ -33,7 +33,7 @@
 </html>
 
 <script>
-    var seedmoney = 10000;
+    var seedmoney = getUrlValue(0);
 
     function betting() {
         investedmoney=$('#wallet').val();
@@ -59,6 +59,28 @@
         }
     })
 
+
+
+    function parseURLParams(url) {
+        var queryStart = url.indexOf("?") + 1,
+            queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+            query = url.slice(queryStart, queryEnd - 1),
+            pairs = query.replace(/\+/g, " ").split("&"),
+            parms = {}, i, n, v, nv;
+
+        if (query === url || query === "") return;
+
+        for (i = 0; i < pairs.length; i++) {
+            nv = pairs[i].split("=", 2);
+            n = decodeURIComponent(nv[0]);
+            v = decodeURIComponent(nv[1]);
+
+            if (!parms.hasOwnProperty(n)) parms[n] = [];
+            parms[n].push(nv.length === 2 ? v : null);
+        }
+        return parms;
+    }
+
     function post_to_url(path, params, method) {
         var form = document.createElement("form");
         form.setAttribute("method", method);
@@ -73,15 +95,20 @@
         document.body.appendChild(form);
         form.submit();
     }
-
-    function nameToCode()
+    function getUrlValue(idx)
+    {
+        urlParams=parseURLParams(document.location.href);
+        return urlParams[idx];  
+    }
+    function getCode()
     {
         var name = document.getElementById('searchInput').value
         var idx = tmpDataName.indexOf(name)
         var code = tmpDataCode[idx]
-        return code
-        console.log(name)
-        console.log(code)    
+        return code 
+    }
+    function getInvest(){
+        return document.getElementById('wallet').value;
     }
     
     $(".input_change").change(function () {
