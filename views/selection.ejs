@@ -3,7 +3,8 @@
 
 <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
+    <link rel='stylesheet' href='/stylesheets/selectStyle.css' />
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -12,22 +13,64 @@
     <!-- or from CDN -->
     <script src="https://unpkg.com/hangul-js" type="text/javascript"></script>
     <!-- <script type="text/javascript" src="../node_modules/hangul/index.js"></script> -->
+    <style type="text/css"> 
+        a { text-decoration:none } 
+    </style>
 </head>
 
-<body>
-    <div>
-        <input id="searchInput" name="search">
+<body id="titleBody">
+    <header>
+        <h1>하늘에서 내리는 봉봉</h1>
+        <nav>
+          <a href="/" id="titleHyper">새로하기</a>
+          <!-- <span id="titleSpan">새로하기</span> -->
+        </nav>
+      </header>
+    <!-- <div style="color: #333;">.</div>
+    <div style="color: #333;">.</div>
+    <div style="color: #333;">.</div>
+    <div style="color: #333;">.</div>
+    <div style="color: #333;">.</div> -->
+    </br></br></br>
+    <div id="buttonDiv">
 
-        <!--div-- id="money">10000</!--div-->
-        <span id="walletBoard">9500</span>원
-        <input id="wallet" class="input_change" value = "500" type="number" placeholder="금액을 입력해주세요." style="ime-mode:disabled;" min="500" max="10000" step="500"/>
-        <input type="button" value="배팅" onclick="betting()"/>
+        <div id="roundBoard" style="font-size: 100px;">1 Round</div>
+        </br>
+        종목 = <input name="종목" id="searchInput"  name="search"></br>
+        </br>
+        현재 보유 금액 = <fragment id="walletBoard" ></fragment></br>
+        </br>
+        시드 머니 = <input id="wallet" class="input_change" value = "500000" type="number" placeholder="금액을 입력해주세요." style="ime-mode:disabled;" min="500000" max=getUrlValue(0); step="500000"/>
 
-        <!-- <input type="button" name="start" value="게임 시작" onclick="location.href='game'" /> -->
-        <input type="button" name="start" value="게임 시작" onclick="post_to_url('game',[getUrlValue(0),getInvest(),getCode(),getUrlValue(3),getUrlValue(4),getUrlValue(5)],'get')" />
-        <!-- <input type="button" name="start" value="게임 시작" onclick="nameToCode()" /> -->
-        <input type="button" name="back"  value="뒤로 가기" onclick="location.href='../'" />
-    </div>
+        <!-- <div class="dark-button button-wrapper">
+            <div class="button" onclick="betting()">
+                <span >
+                    시드 머니
+                </span >
+            </div>  
+        </div> -->
+        
+        <!-- <input type="button" value="시드 머니" onclick="betting()"/> -->
+
+        <!-- <input type="button" name="start" value="게임 시작" onclick="post_to_url('game',[getUrlValue(0),getInvest(),getCode(),getUrlValue(3),getUrlValue(4),getUrlValue(5)],'get')" />
+        <input type="button" name="back"  value="뒤로 가기" onclick="location.href='../'" /> -->
+        
+        <div id="buttonDiv">
+            <div class="dark-button button-wrapper">
+              <div class="button" onclick="post_to_url('game',[getUrlValue(0),getInvest(),getCode(),getUrlValue(3),getUrlValue(4),getUrlValue(5)],'get')">
+                  <span >
+                      게임 하기
+                  </span >
+              </div>  
+            </div>
+            <div class="dark-button button-wrapper">
+              <div class="button" onclick="location.href='../'">
+                  <span >
+                      뒤로 가기
+                  </span >
+              </div>  
+            </div>
+          </div>
 </body>
 
 </html>
@@ -43,19 +86,27 @@
 
     $("#wallet").change(function () {
         var wallet = $('#wallet').val();
+        // console.log()
+        // console.log("비교 : "+wallet > seedmoney)
 
-        if( wallet < 0 || wallet > seedmoney ) {
-        alert("적절한 금액을 입력해주세요.");
-        $('#wallet').val(500);
-        document.getElementById("walletBoard").innerHTML = seedmoney-500;
-        } else {
-        if( wallet % 500 != 0 ) {
-            alert("500원 단위로 입력해주세요.");
-            $('#wallet').val(500);
-            document.getElementById("walletBoard").innerHTML = seedmoney-500;
-        } else {
-            document.getElementById("walletBoard").innerHTML = seedmoney - wallet;
-        }
+        if( Number(wallet) < 0 || Number(wallet) > Number(seedmoney) ) {
+            // console.log("터짐 >> 비교 : "+wallet > seedmoney)
+            // console.log("wallet : "+wallet)
+            // console.log("seedmoney : "+seedmoney)
+            alert("적절한 금액을 입력해주세요.");
+            $('#wallet').val(500000);
+            document.getElementById("walletBoard").innerHTML = seedmoney-500000 + '원';
+        } 
+        else {
+            // console.log("성공 >> 비교 : "+Number(wallet) > Number(seedmoney))
+            if( wallet % 500000 != 0 ) {
+                alert("500000원 단위로 입력해주세요.");
+                $('#wallet').val(500000);
+                document.getElementById("walletBoard").innerHTML = seedmoney-500000 + '원';
+            } 
+            else {
+                document.getElementById("walletBoard").innerHTML = seedmoney - wallet + '원';
+            }
         }
     })
 
@@ -159,6 +210,8 @@
         //즉 너무 많은 수가 있으면 클라이언트 측이 느려질 수 있다는 점.
         //하지만 DB쿼리를 조작해서 서버에서 초성검색을 하는 방식에 비해 서버에는 무리가 없다.
         // ajax로 미리 검색어 목록을 다 가지고 온다.
+        document.getElementById("roundBoard").innerHTML = getUrlValue(3) + ' Round'
+        document.getElementById("walletBoard").innerHTML = seedmoney + '원'
         $.ajax({
             type: 'get',
             url: "https://sandbox-apigw.koscom.co.kr/v2/market/stocks/kospi/lists",
