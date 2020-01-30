@@ -1,12 +1,69 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome o <%= title %></p>
-    <input type="button" value="메인 화면" onclick="location.href='../'"/>
+    <div>
+      <p>stage1 번 돈 : <span id=earnedmoney1><%= earnedmoney1 %></span></p>
+      <p>stage2 번 돈 : <span id=earnedmoney2><%= earnedmoney2 %></span></p>
+      <p>stage3 번 돈 : <span id=earnedmoney3><%= earnedmoney3 %></span></p>
+    </div>
+    <div>
+      <input id="name" name="search">
+      <span>이름입력</span>
+      <input type="button" name="start" value="입력" onclick="goRanking()" />
+      <input type="button" name="back"  value="뒤로 가기" onclick="location.href='../'" />
+    </div>
   </body>
 </html>
+<script>
+  function goRanking() {
+    var earnedmoney1 = document.getElementById('earnedmoney1').value;
+    var earnedmoney2 = document.getElementById('earnedmoney2').value;
+    var earnedmoney3 = document.getElementById('earnedmoney3').value;
+    var name = document.getElementById('name').value;
+    post_to_url('ranking',{
+      earnedmoney1: earnedmoney1,
+      earnedmoney2: earnedmoney2,
+      earnedmoney3: earnedmoney3,
+      name: name
+    },'post');
+  }
+
+  function parseURLParams(url) {
+    var queryStart = url.indexOf("?") + 1,
+        queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+        query = url.slice(queryStart, queryEnd - 1),
+        pairs = query.replace(/\+/g, " ").split("&"),
+        parms = {}, i, n, v, nv;
+
+    if (query === url || query === "") return;
+
+    for (i = 0; i < pairs.length; i++) {
+        nv = pairs[i].split("=", 2);
+        n = decodeURIComponent(nv[0]);
+        v = decodeURIComponent(nv[1]);
+
+        if (!parms.hasOwnProperty(n)) parms[n] = [];
+        parms[n].push(nv.length === 2 ? v : null);
+    }
+    return parms;
+  }
+
+    function post_to_url(path, params, method) {
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+        for(var key in params) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "submit");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+            form.appendChild(hiddenField);
+        }
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>

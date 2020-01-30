@@ -2,8 +2,10 @@ var express = require('express');
 var fs = require('fs');
 var csv = require('csv-parser');
 var csvWriter = require('csv-write-stream');
+var querystring = require('querystring');
 var router = express.Router();
 var rank_data = [];
+var url = require('url');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -28,18 +30,30 @@ router.get('/ranking', function(req, res, next) {
 });
 
 router.post('/ranking', function(req, res, next) {
-
   var writer = csvWriter({sendHeaders: false});
   writer.pipe(fs.createWriteStream('ranking.csv', {flags : 'a'}))
   writer.write({Name: 'name', Stock: 'stock', Profit: 'profit', Rate: 'rate', Date: 'date'})
   writer.end();
 
-  res.render('ranking', { ranking: 'ranking' });
+  rank_data = [];
+
+  fs.createReadStream('ranking.csv')
+    .pipe(csv())
+    .on('data', (data) => rank_data.push(data))
+    .on('end', () => {
+      
+      res.render('ranking', {title: 'ranking', rankarray: rank_data});
+  });
 });
 
-router.get('/score', function(req, res, next) {
-  console.log(req);
-  res.render('score', { title: 'score' });
+router.post('/score', function(req, res, next) {
+  var parsedUrl = url.parse(req.url);
+  var qObj = querystring.parse(parsedUrl.query);
+
+  res.render('score', { earnedmoney1: qObj['earnedmoney1'],
+                        earnedmoney2: qObj[qObj['earnedmoney2']],
+                        earnedmoney3: qObj[qObj['earnedmoney3']],
+                      });
 });
 
 

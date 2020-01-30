@@ -158,8 +158,13 @@
     if(counter==0) {
       setTimeout(function(){
         if(stage==3) {
-          post_to_url('score',[earnedmoney1, earnedmoney2, PV-investedmoney],'get');
-        } 
+          post_to_url('score',{
+            earnedmoney1:earnedmoney1,
+            earnedmoney2:earnedmoney2,
+            earnedmoney3:PV-investedmoney,
+            seedmoney:seedmoney
+          },'post');
+        }
         else {
           if(stage==1)
             earnedmoney1=PV-investedmoney;
