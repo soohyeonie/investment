@@ -1,4 +1,5 @@
 var express = require('express');
+
 var fs = require('fs');
 var csv = require('csv-parser');
 var csvWriter = require('csv-write-stream');
@@ -13,12 +14,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/game', function(req, res, next) {
-
-  console.log();
   res.render('game', { title: 'game' });
 });
 
 router.get('/ranking', function(req, res, next) {
+  console.log(req);
   rank_data = [];
   fs.createReadStream('ranking.csv')
     .pipe(csv())
@@ -30,8 +30,14 @@ router.get('/ranking', function(req, res, next) {
 });
 
 router.post('/ranking', function(req, res, next) {
+  function compareBySecond(a, b) {
+    var aArr = a.split(',');
+    var bArr = b.split(',');
+    return aArr[1] - bArr[1];
+  }
+
   let body = req.body;
-  console.log(req);
+  console.log(body);
   let today = new Date();
   var writer = csvWriter({sendHeaders: false});
   writer.pipe(fs.createWriteStream('ranking.csv', {flags : 'a'}));
@@ -43,9 +49,13 @@ router.post('/ranking', function(req, res, next) {
 
   fs.createReadStream('ranking.csv')
     .pipe(csv())
-    .on('data', (data) => rank_data.push(data))
+    .on('data', (data) => {
+      rank_data.push(data);
+      rank_data.sort(function(a, b) {
+        return parseFloat(b.Profit) - parseFloat(a.Profit);
+      });
+    })
     .on('end', () => {
-      
       res.render('ranking', {title: 'ranking', rankarray: rank_data});
   });
 });

@@ -20,14 +20,14 @@
   var game = new Phaser.Game(600, 800, Phaser.CANVAS, null, { preload: preload, create: create, update: update });
   var keyMove;
   var stocks;
-  var counter=10;
+  var counter=30;
   var counterText=0;
 
   var chartData = [];
   var higherHigh = 0;
   var lowerLow = 10000000;
 
-  var stage=Number(getUrlValue(3));
+  var stage=3;//Number(getUrlValue(3));
   var investedmoney=10000;
   var seedmoney;
   var stockcode;
@@ -153,7 +153,7 @@
       game.physics.arcade.collide(player, stock, function collisionHandler(obj1, obj2) {
         stock.destroy();
         player.damage(Math.floor((100-stock.health)*player.health/100));
-        investedmoney = player.health;
+        PV = player.health;
       }, null, this);
     });
 
@@ -196,6 +196,8 @@
         candleSize = Math.abs((candleHealth) - 100)/30;
         candleColor = chartData[now + 1].trdPrc - chartData[now].trdPrc < 0 ? 'red_candle' : 'blue_candle';
         if (candleColor == 'blue_candle') {
+          candleSize = candleSize * 4;
+        } else {
           candleSize = candleSize * 2;
         }
         now = now + 1;
@@ -204,13 +206,13 @@
         // var tempSprite = game.add.sprite(middle, 80, 'stock');
         var tempSprite = game.add.sprite(middle, 80, candleColor);
 
-        tempSprite.height = 30;
+        tempSprite.height = 40;
         tempSprite.width = 420 * candleSize;
         tempSprite.health = Math.floor(candleHealth);
 
         game.physics.enable(tempSprite, Phaser.Physics.ARCADE);
         if (candleColor == 'blue_candle') {
-          tempSprite.body.gravity.y=700;
+          tempSprite.body.gravity.y=750;
         } else {
           tempSprite.body.gravity.y=450;
         }
@@ -236,9 +238,10 @@
 
   function makePV() {
     setTimeout(function(){
-      countertext = game.add.text(game.world.centerX - 100, game.world.centerY, 'PV: ', { font: "20px Arial", fill: "#ffffff" });
+      countertext = game.add.text(game.world.centerX - 300, game.world.centerY, 'PV: ', { font: "20px Arial", fill: "#ffffff" });
       countertext.anchor.setTo(-2.5, 12);
-      countertext.setText('PV: ' + investedmoney);
+      var profit_rate = Math.floor((PV/investedmoney)*100) - 100;
+      countertext.setText('PV: ' + PV + ' (' + profit_rate + '%)');
       //  Here we'll create a basic looped event.
       //  A looped event is like a repeat event but with no limit, it will literally repeat itself forever, or until you stop it.
 
@@ -270,7 +273,8 @@
   }
 
   function updatePV() {
-    countertext.setText('PV: ' + investedmoney);
+    var profit_rate = Math.floor((PV/investedmoney)*100) - 100;
+    countertext.setText('PV: ' + PV + ' (' + profit_rate + '%)');
   }
 
   function init() {
