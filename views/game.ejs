@@ -20,7 +20,7 @@
   var game = new Phaser.Game(600, 800, Phaser.CANVAS, null, { preload: preload, create: create, update: update });
   var keyMove;
   var stocks;
-  var counter=3;
+  var counter=10;
   var counterText=0;
 
   var chartData = [];
@@ -47,6 +47,9 @@
     
     game.load.spritesheet("player", "images/player.png", 80, 100);
     game.load.image("stock", "images/stock.png");
+    game.load.image("red_candle", "images/red_candle.png");
+    game.load.image("blue_candle", "images/blue_candle.png");
+
   }
 
   function parseURLParams(url) {
@@ -108,7 +111,7 @@
     // 게임 처음 실행시 수행되는 함수
     var link = document.location.href;
     urlParams=parseURLParams(link);
-    getPastStockData(urlParams[0]);
+    getPastStockData(urlParams[2]);
     game.physics.startSystem(Phaser.Physics.ARCADE); // 게임 속성 설정(아케이드)
     
     game.stage.backgroundColor = "#2F9D27";         // 게임 배경색 설청
@@ -123,6 +126,7 @@
     keyMove = game.input.keyboard.createCursorKeys();
     player.body.gravityScale=0;
     player.body.immovable = true;
+    player.health = investedmoney;
     init();
   }
 
@@ -148,15 +152,20 @@
     stocks.forEachAlive(function(stock){
       game.physics.arcade.collide(player, stock, function collisionHandler(obj1, obj2) {
         stock.destroy();
-        console.log("hi");
+        player.damage(Math.floor((100-stock.health)*player.health/100));
+        investedmoney = player.health;
       }, null, this);
     });
 
     if(counter==0) {
       setTimeout(function(){
         if(stage==3) {
-          post_to_url('score',[earnedmoney1, earnedmoney2, PV-investedmoney],'get');
-        } 
+          post_to_url('score',{
+            earnedmoney1:earnedmoney1,
+            earnedmoney2:earnedmoney2,
+            earnedmoney3:PV-investedmoney
+          },'get');
+        }
         else {
           if(stage==1)
             earnedmoney1=PV-investedmoney;
@@ -174,20 +183,37 @@
     var min = 50;
     var max = 470;
     var middle = 0;
+    var candleSize = 1;
+    var candleColor = 'red_candle';
+    var candleHealth;
     var now = 0;
     for (var i = 1; i <= 120; i++) {
       setTimeout(function() {
         middle = (chartData[now].hgprc + chartData[now].lwprc) / 2;
-        console.log(middle);
-        console.log(now);
         middle = (middle - lowerLow) * 420;
         middle = Math.floor(middle / (higherHigh - lowerLow));
+        candleHealth = 100 * (chartData[now].trdPrc / chartData[now + 1].trdPrc);
+        candleSize = Math.abs((candleHealth) - 100)/30;
+        candleColor = chartData[now + 1].trdPrc - chartData[now].trdPrc < 0 ? 'red_candle' : 'blue_candle';
+        if (candleColor == 'blue_candle') {
+          candleSize = candleSize * 2;
+        }
         now = now + 1;
 
         // var random = Math.floor(Math.random() * (+max - +min)) + +min;
-        var tempSprite = game.add.sprite(middle, 80, 'stock');
+        // var tempSprite = game.add.sprite(middle, 80, 'stock');
+        var tempSprite = game.add.sprite(middle, 80, candleColor);
+
+        tempSprite.height = 30;
+        tempSprite.width = 420 * candleSize;
+        tempSprite.health = Math.floor(candleHealth);
+
         game.physics.enable(tempSprite, Phaser.Physics.ARCADE);
-        tempSprite.body.gravity.y=450;
+        if (candleColor == 'blue_candle') {
+          tempSprite.body.gravity.y=700;
+        } else {
+          tempSprite.body.gravity.y=450;
+        }
         stocks.add(tempSprite);
       }, 4000+500*i);
     }
@@ -210,7 +236,7 @@
 
   function makePV() {
     setTimeout(function(){
-      countertext = game.add.text(game.world.centerX, game.world.centerY, 'PV: ', { font: "20px Arial", fill: "#ffffff" });
+      countertext = game.add.text(game.world.centerX - 100, game.world.centerY, 'PV: ', { font: "20px Arial", fill: "#ffffff" });
       countertext.anchor.setTo(-2.5, 12);
       countertext.setText('PV: ' + investedmoney);
       //  Here we'll create a basic looped event.
@@ -218,6 +244,8 @@
 
       //  The first parameter is how long to wait before the event fires. In this case 1 second (you could pass in 1000 as the value as well.)
       //  The next two parameters are the function to call ('updateCounter') and the context under which that will happen.
+
+      game.time.events.loop(500, updatePV, this);
     }, 4000);
   }
 
@@ -239,6 +267,10 @@
   function updateCounter() {
     counter--;
     if(counter>=0) text.setText('Counter: ' + counter);
+  }
+
+  function updatePV() {
+    countertext.setText('PV: ' + investedmoney);
   }
 
   function init() {
