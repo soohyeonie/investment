@@ -20,12 +20,27 @@
   margin-top: -100px;
 }
 
-#buttonDiv{
+#messageDiv{
   text-align: center;
   color: #fff;
   background: #333 ;
   font-family: ‘Nanum Pen Script’ ;
-  font-size: 25px;
+  font-size: 100px;
+}
+#stageDiv{
+    text-align: center;
+    color: #fff;
+    background: #333 ;
+    font-family: ‘Nanum Pen Script’ ;
+    font-size: 40px;
+}
+
+#nameDiv{
+    text-align: center;
+    color: #fff;
+    background: #333 ;
+    font-family: ‘Nanum Pen Script’ ;
+    font-size: px;
 }
 
 #titleHyper{
@@ -34,13 +49,6 @@
   font-size: 30px;
 }
 
-.header {
-  position: relative;
-  height: 20px;
-  color: white;
-  background: #EC6D1E ;
-  
-}
 header {  
   height: 20px;
   padding: 2rem;
@@ -59,28 +67,13 @@ h1, p {
 }
 
 a {
-
   color: white;
 }
 
-#main-image {
-  float:left;
-  position: relative;
-  top: 0px;
-  left: 150px;
-  display:hidden;
-}
-
-.frame {
-  background-color:#333;
-  position:absolute;
-  width: 600px;
-  height: 800px;
-}
 
 body  {
     background: #ececec;
-    /* padding: 40px 0; */
+    padding: 40px 0;
     font-family: 'Lato', sans-serif;
     color: #444;
     text-align: center
@@ -173,4 +166,11 @@ span {
     left: 0;
     top: 0;
     transition: all ease-in-out .35s;
+}
+
+#canvas {
+    /* position:absolute; */
+    margin-top: 1%;
+    margin-left: 33%;
+    /* top:200px; */
 }

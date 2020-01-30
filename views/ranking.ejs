@@ -9,14 +9,16 @@
   </head>
   <body id="titleBody">
     <header>
-      <h1>하늘에서 내리는 봉봉</h1>
+      <a href="/"><h1>하늘에서 내리는 봉봉</h1></a>
       <nav>
         <a href="/" id="titleHyper">처음으로</a>
       </nav>
     </header></br></br>
     
-    <div id="messageDiv">
+    <div id="messageDiv" style="position:relative center; align-content: center;">
+      <img src="/images/trophy.png" height="70" width="70" style="transform:rotate(0deg);">
       명예의 전당
+      <img src="/images/trophy.png" height="70" width="70" style="transform:rotate(0deg);">
     </div></br>
     
     <div style="margin-left: 35%;">
@@ -31,7 +33,7 @@
       <% for(let [i,value] of rankarray.entries()) { %>
         <tr>
           <td><%= i+1%></td>
-          <td><%= value['Name'] %> </td>
+          <td>&nbsp&nbsp&nbsp<%=value['Name'] %> </td>
           <td>&nbsp&nbsp&nbsp<%= value['Profit']%></td>
           <td>&nbsp&nbsp&nbsp<%= value['Rate']%></td>
           <td>&nbsp&nbsp&nbsp<%= value['Date']%></td>
