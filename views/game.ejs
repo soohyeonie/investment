@@ -111,7 +111,7 @@
     // 게임 처음 실행시 수행되는 함수
     var link = document.location.href;
     urlParams=parseURLParams(link);
-    getPastStockData(urlParams[0]);
+    getPastStockData(urlParams[2]);
     game.physics.startSystem(Phaser.Physics.ARCADE); // 게임 속성 설정(아케이드)
     
     game.stage.backgroundColor = "#2F9D27";         // 게임 배경색 설청
