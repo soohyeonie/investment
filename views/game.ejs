@@ -20,7 +20,7 @@
   var game = new Phaser.Game(600, 800, Phaser.CANVAS, null, { preload: preload, create: create, update: update });
   var keyMove;
   var stocks;
-  var counter=30;
+  var counter=10;
   var counterText=0;
 
   var chartData = [];
@@ -163,9 +163,8 @@
           post_to_url('score',{
             earnedmoney1:earnedmoney1,
             earnedmoney2:earnedmoney2,
-            earnedmoney3:PV-investedmoney,
-            seedmoney:seedmoney
-          },'post');
+            earnedmoney3:PV-investedmoney
+          },'get');
         }
         else {
           if(stage==1)

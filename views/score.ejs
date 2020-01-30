@@ -6,9 +6,9 @@
   </head>
   <body>
     <div>
-      <p>stage1 번 돈 : <span id=earnedmoney1><%= earnedmoney1 %></span></p>
-      <p>stage2 번 돈 : <span id=earnedmoney2><%= earnedmoney2 %></span></p>
-      <p>stage3 번 돈 : <span id=earnedmoney3><%= earnedmoney3 %></span></p>
+      <p>stage1 번 돈 : <%= earnedmoney1 %></span></p>
+      <p>stage2 번 돈 : <%= earnedmoney2 %></span></p>
+      <p>stage3 번 돈 : <%= earnedmoney3 %></span></p>
     </div>
     <div>
       <input id="name" name="search">
@@ -20,15 +20,13 @@
 </html>
 <script>
   function goRanking() {
-    var earnedmoney1 = document.getElementById('earnedmoney1').value;
-    var earnedmoney2 = document.getElementById('earnedmoney2').value;
-    var earnedmoney3 = document.getElementById('earnedmoney3').value;
+    var profit = <%= earnedmoney1%> + <%= earnedmoney2%> + <%= earnedmoney3%>;
     var name = document.getElementById('name').value;
+   // console.log("hi"+earnedmoney1);
+    console.log(name, profit);
     post_to_url('ranking',{
-      earnedmoney1: earnedmoney1,
-      earnedmoney2: earnedmoney2,
-      earnedmoney3: earnedmoney3,
-      name: name
+      name: name,
+      profit: profit
     },'post');
   }
 
