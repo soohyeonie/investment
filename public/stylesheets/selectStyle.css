@@ -11,12 +11,13 @@
 
 #searchInput{
     width:500px;
-    height:50px;
-    font-size:30px
+    height:60px;
+    font-size:45px
 }
 
 #wallet{
     background: white ;
+    height:60px;
     font: 45px "Lucida Grande";
     width: auto;
 }
@@ -62,7 +63,7 @@ h1, p {
 }
 
 a {
-  color: #00B7FF;
+  color: white;
 }
 
 
