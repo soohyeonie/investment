@@ -24,6 +24,8 @@
   var counterText=0;
 
   var chartData = [];
+  var higherHigh = 0;
+  var lowerLow = 10000000;
 
   var stage=Number(getUrlValue(3));
   var investedmoney=10000;
@@ -93,7 +95,11 @@
 
           success: function (data2) {
             chartData = chartData.concat(data2.result.hisLists);
-            console.log(chartData);
+
+            for (var i = 0; i < 200; i++) {
+              higherHigh = higherHigh < chartData[i].hgprc ? chartData[i].hgprc : higherHigh;
+              lowerLow = lowerLow > chartData[i].lwprc ? chartData[i].lwprc : lowerLow;
+            }
           },
       });
   }
@@ -167,10 +173,19 @@
     stocks = game.add.group();
     var min = 50;
     var max = 470;
+    var middle = 0;
+    var now = 0;
     for (var i = 1; i <= 120; i++) {
       setTimeout(function() {
-        var random = Math.floor(Math.random() * (+max - +min)) + +min;
-        var tempSprite = game.add.sprite(random, 80, 'stock');
+        middle = (chartData[now].hgprc + chartData[now].lwprc) / 2;
+        console.log(middle);
+        console.log(now);
+        middle = (middle - lowerLow) * 420;
+        middle = Math.floor(middle / (higherHigh - lowerLow));
+        now = now + 1;
+
+        // var random = Math.floor(Math.random() * (+max - +min)) + +min;
+        var tempSprite = game.add.sprite(middle, 80, 'stock');
         game.physics.enable(tempSprite, Phaser.Physics.ARCADE);
         tempSprite.body.gravity.y=450;
         stocks.add(tempSprite);
