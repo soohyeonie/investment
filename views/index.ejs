@@ -6,8 +6,7 @@
   </head>
   <body>
     <div>
-      <input type="button" value="게임 하기" onclick="location.href='selection'"/>
-      <input type="button" value="랭킹 확인" onclick="location.href='ranking'"/>
+      <input type="button" value="게임 하기" onclick="post_to_url('selection',['10000000','-1','-1','1','-1','-1'],'get')"/>
       <input type="button" value="게임 종료 Score 화면" onclick="location.href='score'"/>
     </div>
     <script type="text/javascript">
@@ -15,3 +14,20 @@
     </script>
   </body>
 </html>
+
+<script>
+  function post_to_url(path, params, method) {
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+        for(var key in params) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+            form.appendChild(hiddenField);
+        }
+        document.body.appendChild(form);
+        form.submit();
+  }
+</script>

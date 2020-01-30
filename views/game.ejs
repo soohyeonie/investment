@@ -27,14 +27,20 @@
   var higherHigh = 0;
   var lowerLow = 10000000;
 
-  var stage=3;
+  var stage=Number(getUrlValue(3));
   var investedmoney=10000;
   var seedmoney;
   var stockcode;
   var PV=investedmoney;
 
-  var earnedmoney1=0;
-  var earnedmoney2=0;
+  var earnedmoney1=getUrlValue(4);
+  var earnedmoney2=getUrlValue(5);
+
+  function getUrlValue(idx)
+  {
+      urlParams=parseURLParams(document.location.href);
+      return urlParams[idx];  
+  }
 
   function preload() {
     // 게임에 필요한 데이터 로드
@@ -155,8 +161,14 @@
             earnedmoney3:PV-investedmoney,
             seedmoney:seedmoney
           },'post');
-        } else {
-
+        }
+        else {
+          if(stage==1)
+            earnedmoney1=PV-investedmoney;
+          else if(stage==2)
+            earnedmoney2=PV-investedmoney;
+          var currentMoney=getUrlValue(0)-getUrlValue(1)+PV-investedmoney;
+          post_to_url('selection',[currentMoney,'-1','-1',stage+1,earnedmoney1,earnedmoney2],'get');
         }
       },2000);
     }
