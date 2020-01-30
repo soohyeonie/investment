@@ -20,16 +20,19 @@
   var game = new Phaser.Game(600, 800, Phaser.CANVAS, null, { preload: preload, create: create, update: update });
   var keyMove;
   var stocks;
-  var counter=30;
+  var counter=3;
   var counterText=0;
 
   var chartData = [];
 
-  var stage;
+  var stage=3;
   var investedmoney=10000;
   var seedmoney;
   var stockcode;
   var PV=investedmoney;
+
+  var earnedmoney1=0;
+  var earnedmoney2=0;
 
   function preload() {
     // 게임에 필요한 데이터 로드
@@ -139,7 +142,11 @@
 
     if(counter==0) {
       setTimeout(function(){
-        //PV, investedmoney, stage, seedmoney
+        if(stage==3) {
+          post_to_url('score',[earnedmoney1, earnedmoney2, PV-investedmoney],'get');
+        } else {
+
+        }
       },2000);
     }
   }
@@ -187,9 +194,24 @@
     }, 4000);
   }
 
+  function post_to_url(path, params, method) {
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+    for (var key in params) {
+      var hiddenField = document.createElement("input");
+      hiddenField.setAttribute("type", "hidden");
+      hiddenField.setAttribute("name", key);
+      hiddenField.setAttribute("value", params[key]);
+      form.appendChild(hiddenField);
+    }
+    document.body.appendChild(form);
+    form.submit();
+  }
+
   function updateCounter() {
-    if(counter>0) counter--;
-    text.setText('Counter: ' + counter);
+    counter--;
+    if(counter>=0) text.setText('Counter: ' + counter);
   }
 
   function init() {
