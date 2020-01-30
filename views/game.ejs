@@ -153,7 +153,7 @@
       game.physics.arcade.collide(player, stock, function collisionHandler(obj1, obj2) {
         stock.destroy();
         player.damage(Math.floor((100-stock.health)*player.health/100));
-        investedmoney = player.health;
+        PV = player.health;
       }, null, this);
     });
 
@@ -239,7 +239,7 @@
     setTimeout(function(){
       countertext = game.add.text(game.world.centerX - 100, game.world.centerY, 'PV: ', { font: "20px Arial", fill: "#ffffff" });
       countertext.anchor.setTo(-2.5, 12);
-      countertext.setText('PV: ' + investedmoney);
+      countertext.setText('PV: ' + PV);
       //  Here we'll create a basic looped event.
       //  A looped event is like a repeat event but with no limit, it will literally repeat itself forever, or until you stop it.
 
@@ -271,7 +271,7 @@
   }
 
   function updatePV() {
-    countertext.setText('PV: ' + investedmoney);
+    countertext.setText('PV: ' + PV);
   }
 
   function init() {
