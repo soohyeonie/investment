@@ -9,6 +9,7 @@
   position: relative;
 }
 
+
 #titleSpan{
   background: #EC6D1E ;
   position: relative;
@@ -20,12 +21,27 @@
   margin-top: -100px;
 }
 
-#buttonDiv{
+#messageDiv{
   text-align: center;
-  color: #fff;
+  color: #EDD200;
   background: #333 ;
   font-family: ‘Nanum Pen Script’ ;
-  font-size: 25px;
+  font-size: 80px;
+}
+#stageDiv{
+    text-align: center;
+    color: #fff;
+    background: #333 ;
+    font-family: ‘Nanum Pen Script’ ;
+    font-size: 40px;
+}
+
+#nameDiv{
+    text-align: center;
+    color: #fff;
+    background: #333 ;
+    font-family: ‘Nanum Pen Script’ ;
+    font-size: 40px;
 }
 
 #titleHyper{
@@ -82,7 +98,7 @@ body  {
     overflow: hidden;
     transition: all .35s ease-in-out .35s;
     margin: 0 auto;
-    width: 500px;
+    width: 250px;
     text-align: center;
 }
 .dark-button .button,
@@ -115,7 +131,7 @@ span {
     position: relative;
     transition: all .35s ease-in-out .35s;
     font-family: ‘Nanum Pen Script’ ;
-    font-size: 50px;
+    font-size: 40px;
 }
 .button:hover span {
     background: #EC6D1E;

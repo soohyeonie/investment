@@ -2,21 +2,50 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/rankingStyle.css' />
+    <style type="text/css"> 
+      a { text-decoration:none } 
+    </style> 
   </head>
-  <body>
-        <div>
-            <input type="button" value="메인 화면" onclick="location.href='../'"/>
-            <br>
-            <table>
-            <% for(let value of rankarray) { %>
-              <tr>
-                <td><%= value['Name'] %> </td>
-                <td><%= value['Profit']%></td>
-                <td><%= value['Rate']%></td>
-                <td><%= value['Date']%></td>
-              </tr>
-            <% } %>
-            </table>
-  </body>
+  <body id="titleBody">
+    <header>
+      <h1>하늘에서 내리는 봉봉</h1>
+      <nav>
+        <a href="/" id="titleHyper">처음으로</a>
+      </nav>
+    </header></br></br>
+    
+    <div id="messageDiv">
+      명예의 전당
+    </div></br>
+    
+    <div style="margin-left: 35%;">
+      <table style="font-size: 22px;color: white;">
+        <tr style="color:#EDD200;">
+          <td>순위</td>
+          <td>&nbsp&nbsp&nbsp이름</td>
+          <td>&nbsp&nbsp&nbsp최종수익</td>
+          <td>&nbsp&nbsp&nbsp수익률(%)</td>
+          <td>&nbsp&nbsp&nbspDate(시,분,초)</td>
+        </tr>
+      <% for(let [i,value] of rankarray.entries()) { %>
+        <tr>
+          <td><%= i+1%></td>
+          <td><%= value['Name'] %> </td>
+          <td>&nbsp&nbsp&nbsp<%= value['Profit']%></td>
+          <td>&nbsp&nbsp&nbsp<%= value['Rate']%></td>
+          <td>&nbsp&nbsp&nbsp<%= value['Date']%></td>
+        </tr>
+      <% } %>
+      </table>
+    </div>
+
+    <!-- <div class="dark-button button-wrapper">
+      <div class="button" onclick="goRanking()">
+          <span >
+              처음으로
+          </span >
+      </div>  
+    </div> -->
+  </body="titleBody">
 </html>

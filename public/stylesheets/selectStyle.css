@@ -128,7 +128,7 @@ span {
     font-size: 30px;
 }
 .button:hover span {
-    background: ##EC6D1E;
+    background: #EC6D1E;
     color: #fff;
     transition: all .35s ease-in-out .35s;
 }

@@ -20,12 +20,27 @@
   margin-top: -100px;
 }
 
-#buttonDiv{
+#messageDiv{
   text-align: center;
   color: #fff;
   background: #333 ;
   font-family: ‘Nanum Pen Script’ ;
-  font-size: 25px;
+  font-size: 100px;
+}
+#stageDiv{
+    text-align: center;
+    color: #fff;
+    background: #333 ;
+    font-family: ‘Nanum Pen Script’ ;
+    font-size: 40px;
+}
+
+#nameDiv{
+    text-align: center;
+    color: #fff;
+    background: #333 ;
+    font-family: ‘Nanum Pen Script’ ;
+    font-size: 40px;
 }
 
 #titleHyper{
