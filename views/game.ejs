@@ -27,7 +27,7 @@
   var higherHigh = 0;
   var lowerLow = 10000000;
 
-  var stage=3;
+  var stage=1;
   var investedmoney=10000;
   var seedmoney;
   var stockcode;
@@ -41,6 +41,9 @@
     
     game.load.spritesheet("player", "images/player.png", 80, 100);
     game.load.image("stock", "images/stock.png");
+    game.load.image("red_candle", "images/red_candle.png");
+    game.load.image("blue_candle", "images/blue_candle.png");
+
   }
 
   function parseURLParams(url) {
@@ -162,18 +165,28 @@
     var min = 50;
     var max = 470;
     var middle = 0;
+    var candleSize = 1;
+    var candleColor = 'red_candle';
     var now = 0;
     for (var i = 1; i <= 120; i++) {
       setTimeout(function() {
         middle = (chartData[now].hgprc + chartData[now].lwprc) / 2;
-        console.log(middle);
-        console.log(now);
         middle = (middle - lowerLow) * 420;
         middle = Math.floor(middle / (higherHigh - lowerLow));
+        candleSize = 100 * (chartData[now].hgprc) / chartData[now + 1].lwprc;
+        candleSize = Math.abs((candleSize) - 100)/50;
+        candleColor = chartData[now + 1].trdPrc - chartData[now].trdPrc < 0 ? 'red_candle' : 'blue_candle';
         now = now + 1;
 
         // var random = Math.floor(Math.random() * (+max - +min)) + +min;
-        var tempSprite = game.add.sprite(middle, 80, 'stock');
+        // var tempSprite = game.add.sprite(middle, 80, 'stock');
+        var tempSprite = game.add.sprite(middle, 80, candleColor);
+
+        tempSprite.height = 30;
+        tempSprite.width = 420 * candleSize;
+        console.log(candleSize);
+
+
         game.physics.enable(tempSprite, Phaser.Physics.ARCADE);
         tempSprite.body.gravity.y=450;
         stocks.add(tempSprite);
