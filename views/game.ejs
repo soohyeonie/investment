@@ -142,8 +142,8 @@
 
     player = game.add.sprite(275,650,"player");
     game.physics.arcade.enable(player);
-    player.animations.add("left",[0,1,2],10,true);
-    player.animations.add("right",[0,1,2],10,true);
+    player.animations.add("left",[0,1,2,3,4,5],10,true);
+    player.animations.add("right",[7,8,9,10,11,12],10,true);
 
     keyMove = game.input.keyboard.createCursorKeys();
     player.body.gravityScale=0;
@@ -174,7 +174,7 @@
          
     } else {
         player.animations.stop();      // player에게 적용중인 애니메이션을 멈춘다.
-        player.frame = 3;              // player의 frame을 3번째 프레임으로 설정한다.
+        player.frame = 6;              // player의 frame을 3번째 프레임으로 설정한다.
     }
     stocks.forEachAlive(function(stock){
       game.physics.arcade.collide(player, stock, function collisionHandler(obj1, obj2) {
