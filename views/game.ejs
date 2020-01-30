@@ -27,7 +27,7 @@
   var higherHigh = 0;
   var lowerLow = 10000000;
 
-  var stage=3;//Number(getUrlValue(3));
+  var stage=Number(getUrlValue(3));
   var investedmoney=10000;
   var seedmoney;
   var stockcode;
@@ -36,6 +36,14 @@
   var earnedmoney1=getUrlValue(4);
   var earnedmoney2=getUrlValue(5);
 
+//sounds
+  var scoreup;
+  var scoredown;
+  var bgm;
+  var end;
+  var countdown;
+  var keys;
+
   function getUrlValue(idx)
   {
       urlParams=parseURLParams(document.location.href);
@@ -43,13 +51,20 @@
   }
 
   function preload() {
+    //sounds
+    game.load.audio('scoreup', 'sounds/scoreup.mp3');
+    game.load.audio('scoredown', 'sounds/scoredown.mp3');
+    game.load.audio('bgm', 'sounds/bgm.mp3');
+    game.load.audio('end', 'sounds/end.mp3');
+    game.load.audio('countdown', 'sounds/countdown.mp3');
+    // game.load.audio('explosion', 'assets/audio/SoundEffects/explosion.mp3');
     // 게임에 필요한 데이터 로드
     
     game.load.spritesheet("player", "images/player.png", 80, 100);
     game.load.image("stock", "images/stock.png");
     game.load.image("red_candle", "images/red_candle.png");
     game.load.image("blue_candle", "images/blue_candle.png");
-
+    game.load.image("background", "images/background.jpg");
   }
 
   function parseURLParams(url) {
@@ -114,9 +129,16 @@
     getPastStockData(urlParams[2]);
     game.physics.startSystem(Phaser.Physics.ARCADE); // 게임 속성 설정(아케이드)
     
-    game.stage.backgroundColor = "#2F9D27";         // 게임 배경색 설청
-    game.create.texture('sky', ['E'], 800, 80, 0);  // 'E' 코드색상 800x80 크기의 블럭을 'sky' 이름으로 생성
-    game.add.sprite(0, 0, 'sky');                   // sky를 x좌표 0, y좌표 0 위치에 추가
+ 
+    game.add.sprite(0, 0, 'background');        // 게임 배경색 설청
+
+    //sounds
+    scoreup = game.add.audio('scoreup');
+    scoredown = game.add.audio('scoredown');
+    bgm = game.add.audio('bgm');
+    end = game.add.audio('end');
+    countdown = game.add.audio('countdown');
+  
 
     player = game.add.sprite(275,650,"player");
     game.physics.arcade.enable(player);
@@ -127,19 +149,24 @@
     player.body.gravityScale=0;
     player.body.immovable = true;
     player.health = investedmoney;
+
+    game.sound.setDecodedCallback([ scoreup, scoredown,bgm, end, countdown], start, this);
     init();
   }
 
+  function start() {
+
+  }
   function update() {
     player.body.velocity.setTo(0, 0); // 관성을 0으로 설정
     if (keyMove.left.isDown) {
-        if(player.x >= 50 ) {
+        if(player.x >= 30 ) {
           player.body.velocity.x = -350;
         }   // player x좌표 위치를 -150 속도로 이동
         player.animations.play("left");  // player에게 'left' 애니메이션 적용
         
     } else if (keyMove.right.isDown) {
-        if(player.x <= 460 ) {
+        if(player.x <= 480 ) {
           player.body.velocity.x = +350;
         }
   
@@ -151,13 +178,22 @@
     }
     stocks.forEachAlive(function(stock){
       game.physics.arcade.collide(player, stock, function collisionHandler(obj1, obj2) {
+
+        if(stock.health<100) {
+          scoredown.play();
+        } else {
+          scoreup.play();
+        }
         stock.destroy();
-        player.damage(Math.floor((100-stock.health)*player.health/100));
-        PV = player.health;
+        if(counter>=0) {
+          player.damage(Math.floor((100-stock.health)*player.health/100));
+          PV = player.health;
+        }
       }, null, this);
     });
 
     if(counter==0) {
+      end.play();
       setTimeout(function(){
         if(stage==3) {
           post_to_url('score',{
@@ -223,8 +259,8 @@
 
   function makeTimer() {
     setTimeout(function(){
-      text = game.add.text(game.world.centerX, game.world.centerY, 'Counter: 30', { font: "20px Arial", fill: "#ffffff" });
-      text.anchor.setTo(2.5, 12);
+      text = game.add.text(175, 33, '00:30', { font: "20px Arial", fill: "#ffffff" });
+      // text.anchor.setTo(0.5, 13);
 
       //  Here we'll create a basic looped event.
       //  A looped event is like a repeat event but with no limit, it will literally repeat itself forever, or until you stop it.
@@ -237,11 +273,12 @@
   }
 
   function makePV() {
+    countdown.play();
     setTimeout(function(){
-      countertext = game.add.text(game.world.centerX - 300, game.world.centerY, 'PV: ', { font: "20px Arial", fill: "#ffffff" });
-      countertext.anchor.setTo(-2.5, 12);
+      countertext = game.add.text(345, 33, '30', { font: "20px Arial", fill: "#ffffff" });
+      //countertext.anchor.setTo(-2.5, 12);
       var profit_rate = Math.floor((PV/investedmoney)*100) - 100;
-      countertext.setText('PV: ' + PV + ' (' + profit_rate + '%)');
+      countertext.setText(PV + ' (' + profit_rate + '%)');
       //  Here we'll create a basic looped event.
       //  A looped event is like a repeat event but with no limit, it will literally repeat itself forever, or until you stop it.
 
@@ -249,6 +286,7 @@
       //  The next two parameters are the function to call ('updateCounter') and the context under which that will happen.
 
       game.time.events.loop(500, updatePV, this);
+      bgm.play();
     }, 4000);
   }
 
@@ -269,12 +307,18 @@
 
   function updateCounter() {
     counter--;
-    if(counter>=0) text.setText('Counter: ' + counter);
+    if(counter>=0) {
+      if(counter<10) {
+        text.setText("00:0"+counter);
+      } else {
+        text.setText("00:"+counter);
+      }
+    }
   }
 
   function updatePV() {
     var profit_rate = Math.floor((PV/investedmoney)*100) - 100;
-    countertext.setText('PV: ' + PV + ' (' + profit_rate + '%)');
+    countertext.setText(PV + ' (' + profit_rate + '%)');
   }
 
   function init() {

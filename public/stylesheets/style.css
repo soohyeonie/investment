@@ -34,6 +34,13 @@
   font-size: 30px;
 }
 
+.header {
+  position: relative;
+  height: 20px;
+  color: white;
+  background: #EC6D1E ;
+  
+}
 header {  
   height: 20px;
   padding: 2rem;
@@ -55,10 +62,24 @@ a {
   color: #00B7FF;
 }
 
+#main-image {
+  float:left;
+  position: relative;
+  top: 0px;
+  left: 150px;
+  display:hidden;
+}
+
+.frame {
+  background-color:#333;
+  position:absolute;
+  width: 600px;
+  height: 800px;
+}
 
 body  {
     background: #ececec;
-    padding: 40px 0;
+    /* padding: 40px 0; */
     font-family: 'Lato', sans-serif;
     color: #444;
     text-align: center
