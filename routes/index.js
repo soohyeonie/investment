@@ -30,9 +30,13 @@ router.get('/ranking', function(req, res, next) {
 });
 
 router.post('/ranking', function(req, res, next) {
+  let body = req.body;
+  console.log(req);
+  let today = new Date();
   var writer = csvWriter({sendHeaders: false});
-  writer.pipe(fs.createWriteStream('ranking.csv', {flags : 'a'}))
-  writer.write({Name: 'name', Stock: 'stock', Profit: 'profit', Rate: 'rate', Date: 'date'})
+  writer.pipe(fs.createWriteStream('ranking.csv', {flags : 'a'}));
+
+  writer.write({Name: body.name , Profit: body.profit , Rate: (((body.profit)/10000)*100).toFixed(2), Date: today.toLocaleString()});
   writer.end();
 
   rank_data = [];
@@ -46,14 +50,14 @@ router.post('/ranking', function(req, res, next) {
   });
 });
 
-router.post('/score', function(req, res, next) {
+router.get('/score', function(req, res, next) {
   var parsedUrl = url.parse(req.url);
   var qObj = querystring.parse(parsedUrl.query);
 
   res.render('score', { earnedmoney1: qObj['earnedmoney1'],
-                        earnedmoney2: qObj[qObj['earnedmoney2']],
-                        earnedmoney3: qObj[qObj['earnedmoney3']],
-                      });
+                        earnedmoney2: qObj['earnedmoney2'],
+                        earnedmoney3: qObj['earnedmoney3'],
+  });
 });
 
 
