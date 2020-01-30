@@ -9,30 +9,38 @@
   position: relative;
 }
 
-#searchInput{
-    width:500px;
-    height:50px;
-    font-size:30px
+#titleSpan{
+  background: #EC6D1E ;
+  position: relative;
+  text-align: center;
+  font: 25px "Lucida Grande";
+}.multi {
+  display: block;
+  top: 50%;
+  margin-top: -100px;
 }
 
-#wallet{
-    background: white ;
-    font: 45px "Lucida Grande";
-    width: auto;
-}
-
-#walletBoard{
-  background: #333333 ;
-  font: 45px "Lucida Grande";
-  width: auto;
-}
-
-#buttonDiv{
+#messageDiv{
   text-align: center;
   color: #fff;
   background: #333 ;
   font-family: ‘Nanum Pen Script’ ;
-  font-size: 45px;
+  font-size: 100px;
+}
+#stageDiv{
+    text-align: center;
+    color: #fff;
+    background: #333 ;
+    font-family: ‘Nanum Pen Script’ ;
+    font-size: 40px;
+}
+
+#nameDiv{
+    text-align: center;
+    color: #fff;
+    background: #333 ;
+    font-family: ‘Nanum Pen Script’ ;
+    font-size: 40px;
 }
 
 #titleHyper{
@@ -52,9 +60,6 @@ header {
   align-items: center;
 }
 
-ul li{
-    font-size:25px;
-}
 
 h1, p {
   font-family: ‘Nanum Pen Script’ ;
@@ -92,7 +97,7 @@ body  {
     overflow: hidden;
     transition: all .35s ease-in-out .35s;
     margin: 0 auto;
-    width: 250px;
+    width: 500px;
     text-align: center;
 }
 .dark-button .button,
@@ -125,7 +130,7 @@ span {
     position: relative;
     transition: all .35s ease-in-out .35s;
     font-family: ‘Nanum Pen Script’ ;
-    font-size: 30px;
+    font-size: 50px;
 }
 .button:hover span {
     background: #EC6D1E;

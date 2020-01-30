@@ -9,30 +9,39 @@
   position: relative;
 }
 
-#searchInput{
-    width:500px;
-    height:50px;
-    font-size:30px
-}
 
-#wallet{
-    background: white ;
-    font: 45px "Lucida Grande";
-    width: auto;
-}
-
-#walletBoard{
-  background: #333333 ;
-  font: 45px "Lucida Grande";
-  width: auto;
-}
-
-#buttonDiv{
+#titleSpan{
+  background: #EC6D1E ;
+  position: relative;
   text-align: center;
-  color: #fff;
+  font: 25px "Lucida Grande";
+}.multi {
+  display: block;
+  top: 50%;
+  margin-top: -100px;
+}
+
+#messageDiv{
+  text-align: center;
+  color: #EDD200;
   background: #333 ;
   font-family: ‘Nanum Pen Script’ ;
-  font-size: 45px;
+  font-size: 80px;
+}
+#stageDiv{
+    text-align: center;
+    color: #fff;
+    background: #333 ;
+    font-family: ‘Nanum Pen Script’ ;
+    font-size: 40px;
+}
+
+#nameDiv{
+    text-align: center;
+    color: #fff;
+    background: #333 ;
+    font-family: ‘Nanum Pen Script’ ;
+    font-size: 40px;
 }
 
 #titleHyper{
@@ -52,9 +61,6 @@ header {
   align-items: center;
 }
 
-ul li{
-    font-size:25px;
-}
 
 h1, p {
   font-family: ‘Nanum Pen Script’ ;
@@ -125,7 +131,7 @@ span {
     position: relative;
     transition: all .35s ease-in-out .35s;
     font-family: ‘Nanum Pen Script’ ;
-    font-size: 30px;
+    font-size: 40px;
 }
 .button:hover span {
     background: #EC6D1E;

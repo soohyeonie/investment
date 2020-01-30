@@ -2,22 +2,52 @@
 <html>
   <head>
     <title></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/scoreStyle.css' />
+    <style type="text/css"> 
+      a { text-decoration:none } 
+    </style> 
   </head>
-  <body>
+
+  <body id="titleBody">
+    <header>
+      <h1>하늘에서 내리는 봉봉</h1>
+      <nav>
+        <a href="/" id="titleHyper">새로하기</a>
+      </nav>
+    </header></br></br></br>
+
+    <div id="messageDiv" style="font-size: 100px;">Your score</div></br></br>
     <div>
-      <p>stage1 번 돈 : <%= earnedmoney1 %></span></p>
-      <p>stage2 번 돈 : <%= earnedmoney2 %></span></p>
-      <p>stage3 번 돈 : <%= earnedmoney3 %></span></p>
+      <p id="stageDiv">Round 1 수익 : <%= earnedmoney1 %></span></p></br>
+      <p id="stageDiv">Round 2 수익 : <%= earnedmoney2 %></span></p></br>
+      <p id="stageDiv">Round 3 수익 : <%= earnedmoney3 %></span></p></br>
+    </div></br></br>
+
+    <div id="nameDiv">
+      이름 = <input id="name" name="search" placeholder=" 이름을 기입하세요." style="width:350px;height:50px;font-size:30px;">
+    </div></br>
+
+    <div id="buttonDiv">
+      <div class="dark-button button-wrapper">
+        <div class="button" onclick="goRanking()">
+            <span >
+                기록하기
+            </span >
+        </div>  
+      </div>
+      <div class="dark-button button-wrapper">
+        <div class="button" onclick="location.href='/'">
+            <span >
+                처음으로
+            </span >
+        </div>  
+      </div>
     </div>
-    <div>
-      <input id="name" name="search">
-      <span>이름입력</span>
-      <input type="button" name="start" value="입력" onclick="goRanking()" />
-      <input type="button" name="back"  value="뒤로 가기" onclick="location.href='../'" />
-    </div>
+
+  
   </body>
 </html>
+
 <script>
   function goRanking() {
     var profit = <%= earnedmoney1%> + <%= earnedmoney2%> + <%= earnedmoney3%>;
