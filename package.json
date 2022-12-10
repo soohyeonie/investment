@@ -12,7 +12,7 @@
     "csv-write-stream": "^2.0.0",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
-    "express": "~4.16.1",
+    "express": "~4.17.3",
     "express-formidable": "^1.2.0",
     "fs": "0.0.1-security",
     "hangul": "^1.0.0",
