@@ -20,6 +20,6 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.2",
-    "phaser": "^3.22.0"
+    "phaser": "^3.55.2"
   }
 }
